@@ -8,8 +8,7 @@ dp = Dispatcher(bot)
 
 @dp.message_handler(commands='start')
 async def start(message: types.Message):
-    await message.reply('Привет, я помощник по трудоустройству построенный на базе ИИ, который поможет тебе подготовиться к собеседованию. \nНапиши название компании и желаемую должность по которой ты хочешь пройти собеседование.')
-
+    await message.answer('Привет, я помощник по написанию текста построенный на базе ИИ, который поможет тебе написать текст на любую тему и вид текста. \n\nНапиши <code>Тема:</code> и <code>Вид текста:</code> <blockquote>Чтобы не писать вручную можно просто нажать на слова, они скопируются и можно писать свои мысли после двоеточия</blockquote> \n<tg-spoiler>Например: \n\n\tТема: Польза авокадо \n\n\tВид текста: Пост во Вконтакте</tg-spoiler>', parse_mode="html")
 
 async def get_response(message_text):
   prompt = {
@@ -17,13 +16,13 @@ async def get_response(message_text):
     "modelUri": "gpt://b1gf5pfjsd0phsrq2ldh/yandexgpt-lite",
     "completionOptions": {
       "stream": False,
-      "temperature": 0,
-      "maxTokens": "2000"
+      "temperature": 0.3,
+      "maxTokens": "1000"
     },
     "messages": [
       {
         "role": "system",
-        "text": "Ты — рекрутер в указанной компании. Имитируй собеседование на работу для указанной должности, задавая вопросы, как будто ты потенциальный работодатель. Твоя задача — определить технические навыки кандидата. Сгенерируй вопросы для интервью с потенциальным кандидатом"
+        "text": "Ты — опытный копирайтер. Напиши маркетинговый текст с учётом вида текста и заданной темы."
       },
       {
         "role": "user",
@@ -46,6 +45,23 @@ async def get_response(message_text):
 async def analize_message(message:types.Message):
    response_text = await get_response((message.text))
    await message.answer(response_text)
+
+
+
+#Пример забавной фишки
+@dp.message_handler(commands='viewimport')
+async def start(message: types.Message):
+ await message.reply('<pre><code class="language-python">import requests\nfrom aiogram import Bot, Dispatcher, types, executor</code></pre>', parse_mode="html")
+
+@dp.message_handler(commands='viewsett')
+async def start(message: types.Message):
+ await message.reply('<pre><code class="language-python">API_TOKEN = "Указать токен"\nbot = Bot(token= API_TOKEN)\ndp = Dispatcher(bot)</code></pre>', parse_mode="html")
+
+@dp.message_handler(commands='viewstart')
+async def start(message: types.Message):
+ await message.reply('<pre><code class="language-python">@dp.message_handler(commands="start")\nasync def start(message: types.Message):\n\tawait message.reply("Привет, я помощник по написанию текста построенный на базе ИИ, который поможет тебе написать текст на любую тему и вид текста. \n\nНапиши <code>Тема:</code> и <code>Вид текста:</code>", parse_mode="html")</code></pre>', parse_mode="html")
+
+
 
 if  __name__ == '__main__':
    executor.start_polling(dp, skip_updates= True)
