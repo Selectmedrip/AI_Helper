@@ -5,7 +5,7 @@ import requests
 from random import randint
 from aiogram import Bot, Dispatcher, types, executor
 
-Api= '6864333041:AAEsBWkfwrXH0bIF6V6fUFrnXiUdvKYNNiU'
+Api= '#ключ бота'
 
 bot = Bot(token= Api)
 dp = Dispatcher(bot)
