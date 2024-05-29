@@ -2,7 +2,7 @@ import requests
 from aiogram import Bot, Dispatcher, types, executor
 
 
-API_TOKEN = '6864333041:AAEsBWkfwrXH0bIF6V6fUFrnXiUdvKYNNiU'
+API_TOKEN = '#ключ бота'
 bot = Bot(token= API_TOKEN)
 dp = Dispatcher(bot)
 
