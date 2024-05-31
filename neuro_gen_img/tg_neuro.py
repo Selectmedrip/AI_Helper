@@ -7,7 +7,6 @@ from aiogram import Bot, Dispatcher, types, executor
 from keys import Api, C_Img_ID, G_key, C_GPT_ID
 
 Api= Api
-
 bot = Bot(token= Api)
 dp = Dispatcher(bot)
 
