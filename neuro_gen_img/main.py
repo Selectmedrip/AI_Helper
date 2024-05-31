@@ -1,8 +1,9 @@
 import requests
 from aiogram import Bot, Dispatcher, types, executor
+from keys import Api, C_Img_ID, G_key, C_GPT_ID
 
 
-API_TOKEN = '6864333041:AAEsBWkfwrXH0bIF6V6fUFrnXiUdvKYNNiU'
+API_TOKEN = Api
 bot = Bot(token= API_TOKEN)
 dp = Dispatcher(bot)
 
@@ -13,16 +14,17 @@ async def start(message: types.Message):
 async def get_response(message_text):
   prompt = {
       
-    "modelUri": "gpt://b1gf5pfjsd0phsrq2ldh/yandexgpt-lite",
+    "modelUri": C_GPT_ID,
     "completionOptions": {
       "stream": False,
-      "temperature": 0.3,
-      "maxTokens": "1000"
+      "temperature": 0,
+      "maxTokens": "2000"
     },
     "messages": [
       {
         "role": "system",
-        "text": "Ты — опытный копирайтер. Напиши маркетинговый текст с учётом вида текста и заданной темы."
+        "text": "Ты - нейросеть, которая может улучшить запрос от пользователя, он передает тебе запрос, ты его улучшаешь и делаешь не более 500 символов и передаешь в нейросеть для генерации картинки в высоком разрешении и картинка должны быть реалистиной"
+        #"text": "Ты — опытный копирайтер. Напиши маркетинговый текст с учётом вида текста и заданной темы."
       },
       {
         "role": "user",
@@ -34,7 +36,7 @@ async def get_response(message_text):
   url = "https://llm.api.cloud.yandex.net/foundationModels/v1/completion"
   headers = {
     "Content-Type": "application/json",
-    "Authorization": "Api-Key AQVN2o_cOTMNQHd8b3UIPPnfPfNL4ZJ_d8S3oavt"
+    "Authorization": G_key
   } 
 
   response = requests.post(url, headers= headers, json=prompt)
@@ -45,22 +47,6 @@ async def get_response(message_text):
 async def analize_message(message:types.Message):
    response_text = await get_response((message.text))
    await message.answer(response_text)
-
-
-
-#Пример забавной фишки
-@dp.message_handler(commands='viewimport')
-async def start(message: types.Message):
- await message.reply('<pre><code class="language-python">import requests\nfrom aiogram import Bot, Dispatcher, types, executor</code></pre>', parse_mode="html")
-
-@dp.message_handler(commands='viewsett')
-async def start(message: types.Message):
- await message.reply('<pre><code class="language-python">API_TOKEN = "Указать токен"\nbot = Bot(token= API_TOKEN)\ndp = Dispatcher(bot)</code></pre>', parse_mode="html")
-
-@dp.message_handler(commands='viewstart')
-async def start(message: types.Message):
- await message.reply('<pre><code class="language-python">@dp.message_handler(commands="start")\nasync def start(message: types.Message):\n\tawait message.reply("Привет, я помощник по написанию текста построенный на базе ИИ, который поможет тебе написать текст на любую тему и вид текста. \n\nНапиши <code>Тема:</code> и <code>Вид текста:</code>", parse_mode="html")</code></pre>', parse_mode="html")
-
 
 
 if  __name__ == '__main__':

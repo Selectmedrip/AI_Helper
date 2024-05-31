@@ -4,8 +4,9 @@ import base64
 import requests
 from random import randint
 from aiogram import Bot, Dispatcher, types, executor
+from keys import Api, C_Img_ID, G_key, C_GPT_ID
 
-Api= '6864333041:AAEsBWkfwrXH0bIF6V6fUFrnXiUdvKYNNiU'
+Api= Api
 
 bot = Bot(token= Api)
 dp = Dispatcher(bot)
@@ -19,7 +20,7 @@ def gen_img(prompt_text):
    
     prompt = {
     
-        "modelUri": "art://b1g3f13cj7d6d3ss2md9/yandex-art/latest",
+        "modelUri": C_Img_ID,
         "generationOptions": {
         "seed": randint(20000, 40000000)
         },
@@ -35,7 +36,7 @@ def gen_img(prompt_text):
 
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Api-Key AQVN1cZPDuaKqCCvn2KuJJ51xXP_QOv_Cm0_YFu8"
+        "Authorization": G_key
         }
     response = requests.post(url= url, headers= headers, json= prompt)
     result = response.json()

@@ -2,6 +2,7 @@ import time
 import base64
 import requests
 from random import randint
+from keys import Api, C_Img_ID, G_key, C_GPT_ID
 # Данный код модернизирован циклом который не дает терминалу завершать работу
 # И генерировать картинки с новым именем каждый раз увеличивая счётчик, чтобы исходное изображение сохранялось
 # с новым именем не перезаписывая постоянно один и тот же файл
@@ -13,7 +14,7 @@ while True:
     message = input('\n\nПривет!\n\nЧто рисуем сегодня?\n\nВведите запрос:\t')
 
     prompt = {
-        "modelUri": "art://b1g3f13cj7d6d3ss2md9/yandex-art/latest",
+        "modelUri": C_Img_ID,
         "generationOptions": {
             "seed": randint(20000, 40000000)
         },
@@ -29,7 +30,7 @@ while True:
 
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Api-Key AQVN1cZPDuaKqCCvn2KuJJ51xXP_QOv_Cm0_YFu8"
+        "Authorization": G_key
     }
 
     response = requests.post(url=url, headers=headers, json=prompt)
